@@ -1,5 +1,6 @@
 @extends('welcome')
-@section('content')
+@section('title','Авторизация'){{--Это тайтл--}}
+@section('content') {{-- Страница Входа --}}
     <div class="container">
         <div class="row">
             <div class="col"></div>
@@ -14,24 +15,29 @@
                     @enderror
                     <form method="POST" >
                         @csrf
-                        <div class="mb-3">
-                            <label for="inputLogin" class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="inputLogin" aria-describedby="invalidLoginFeedback"  value="{{old('login')}}">
-                            @error('email')
-                            <div id="validationLoginFeedback" class="invalid-feedback">
-                                {{$message}}.
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Логин <span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" name="login" class="form-control @error('login') is-invalid @enderror" id="inputEmail3"  value="{{old('login')}}">
+                                @error('login')
+                                <div id="invalidEmail" class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="inputPassword" class="form-label">Пароль:</label>
-                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="inputPassword" aria-describedby="invalidPasswordFeedback">
-                            @error('password')
-                            <div id="validationPasswordFeedback" class="invalid-feedback">
-                                {{$message}}.
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Пароль <span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="inputEmail3"  value="{{old('password')}}">
+                                @error('password')
+                                <div id="invalidEmail" class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
                         </div>
+
                         <button type="submit" class="btn btn-primary">Авторизация</button>
                     </form>
                 @endguest

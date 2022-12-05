@@ -18,12 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'fullname',
+        'name',
+        'surname',
+        'patronymic',
         'email',
-        'photo',
+        'login',
         'password',
-        'dateofbirth',
-        'role_id'
+        'role'
     ];
 
     /**
@@ -33,7 +34,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'remember_token'
     ];
 
     /**
@@ -41,18 +42,4 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-
-    }
-
-    public function post()
-    {
-        return $this->hasMany(Post::class);
-    }
 }

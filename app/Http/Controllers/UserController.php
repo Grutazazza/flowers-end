@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginValidation;
 use App\Http\Requests\RegistrationValidation;
+use App\Http\Requests\UserEditValidator;
+use App\Http\Requests\UserUpdateValidator;
+use App\Models\Timetable;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,26 +14,43 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * Переход на страницу регистрации
+     */
     public function register()
     {
         return view('users.register');
     }
+
+    /**
+     * @param RegistrationValidation $request
+     * @return \Illuminate\Http\RedirectResponse
+     * Функция регистрации(создание нового пользователя)
+     */
     public function registerPost(RegistrationValidation $request)
     {
         $requests = $request->validated();
-        unset($requests['photo']);
-        $photo = $request->file('photo')->store('public');
-
         $requests['password']=Hash::make($requests['password']);
-        $requests['photo']=explode('/',$photo)[1];
         User::create($requests);
         return redirect()->route('login');
     }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * Переход на страницу входа(login)
+     */
     public function login()
     {
         return view('users.login');
 
     }
+
+    /**
+     * @param LoginValidation $request
+     * @return \Illuminate\Http\RedirectResponse
+     * Функция логина
+     */
     public function loginPost(LoginValidation $request)
     {
         if(Auth::attempt($request->validated())){
@@ -40,22 +60,16 @@ class UserController extends Controller
         return back()->withErrors(['auth'=>'Логин или пароль не верный!']);
     }
 
-    public function cabinet()
-    {
-        return view('users.cabinet');
-    }
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * Выход из пользователя
+     */
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->regenerate();
         return redirect()->route('welcome');
     }
-    public function users()
-    {
-        return view('welcome');
 
-        $users = User::select('*');
-        $usersItems = $users->get();
-    }
 }

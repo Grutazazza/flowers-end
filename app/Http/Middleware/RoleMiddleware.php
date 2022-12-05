@@ -14,11 +14,12 @@ class RoleMiddleware
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * проверка на роли
      */
-    public function handle(Request $request, Closure $next,...$roles)
+    public function handle(Request $request, Closure $next)
     {
-        $userRole = Auth::user()->role->role;
-        if(in_array($userRole,$roles))
+        $userRole = Auth::user()->role;
+        if($userRole = "Администратор")
             return $next($request);
         else
             return redirect()->route('login');
